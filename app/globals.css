@@ -1,0 +1,185 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-ink-black: #000c0d;
+  --color-porcelain: #FFFFFC;
+  --color-grey: #757780;
+  --color-frozen-lake: #6CCFF6;
+  --color-yellow-green: #98CE00;
+  --color-tato-blue: #0033FF;
+  --color-deep-petrol: #001618;
+  
+  --color-neon-purple: #B026FF;
+  --color-neon-cyan: #00FFFF;
+  --color-neon-blue: #0033FF;
+  --color-neon-green: #39FF14;
+
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+
+  --animate-spin-slow: flex-spin-slow 12s linear infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-glitch: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+  @keyframes flex-spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+:root {
+  --header-height-desktop: 80px;
+  --header-height-tablet: 72px;
+  --header-height-mobile: 64px;
+  --header-height: var(--header-height-desktop);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --header-height: var(--header-height-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --header-height: var(--header-height-mobile);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-white/5 box-border;
+  }
+  
+  html {
+    @apply scroll-smooth;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  body {
+    @apply bg-ink-black text-porcelain font-sans selection:bg-frozen-lake selection:text-ink-black;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  section {
+    scroll-margin-top: var(--header-height);
+  }
+
+  /* Premium font smoothing */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight text-porcelain;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@layer utilities {
+  .neon-glow-cyan {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.2);
+  }
+  .neon-glow-purple {
+    text-shadow: 0 0 10px rgba(176, 38, 255, 0.8), 0 0 20px rgba(176, 38, 255, 0.4), 0 0 30px rgba(176, 38, 255, 0.2);
+  }
+  .neon-glow-blue {
+    text-shadow: 0 0 10px rgba(0, 51, 255, 0.8), 0 0 20px rgba(0, 51, 255, 0.4), 0 0 30px rgba(0, 51, 255, 0.2);
+  }
+  .neon-glow-green {
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.8), 0 0 20px rgba(57, 255, 20, 0.4), 0 0 30px rgba(57, 255, 20, 0.2);
+  }
+  .neon-border-purple {
+     box-shadow: 0 0 15px rgba(176, 38, 255, 0.4), inset 0 0 10px rgba(176, 38, 255, 0.2);
+  }
+  .neon-border-cyan {
+     box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.2);
+  }
+  .neon-border-blue {
+     box-shadow: 0 0 15px rgba(0, 51, 255, 0.4), inset 0 0 10px rgba(0, 51, 255, 0.2);
+  }
+  .neon-border-green {
+     box-shadow: 0 0 15px rgba(57, 255, 20, 0.4), inset 0 0 10px rgba(57, 255, 20, 0.2);
+  }
+
+  .text-stroke {
+    -webkit-text-stroke: 1.5px rgba(108, 207, 246, 0.4);
+  }
+  .text-stroke-sm {
+    -webkit-text-stroke: 0.5px rgba(108, 207, 246, 0.3);
+  }
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+
+  .cursor-none-desktop {
+    @apply lg:cursor-none;
+  }
+
+  .cursor-none-desktop * {
+    @apply lg:cursor-none;
+  }
+
+  /* Force default cursor on forms and modals */
+  input, textarea, select, label {
+    @apply cursor-auto!;
+  }
+
+  /* Restore cursor inside contact modal */
+  [role="dialog"] {
+    cursor: auto !important;
+  }
+  [role="dialog"] * {
+    cursor: auto !important;
+  }
+  [role="dialog"] button {
+    cursor: pointer !important;
+  }
+  [role="dialog"] select {
+    cursor: pointer !important;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-ink-black;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+  }
+}
+
+/* Professional Hub Canvas */
+.professional-hub-canvas {
+  image-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide Spline Logo Watermark */
+#spline-watermark,
+a[href*="spline.design"],
+[class*="spline-watermark"],
+canvas + div[style*="position: absolute"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
