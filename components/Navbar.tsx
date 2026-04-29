@@ -8,6 +8,7 @@ import { useLanguage } from '@/lib/language-context';
 import { useContactModal } from '@/context/ContactModalProvider';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { Language } from '@/lib/i18n';
+import AudioToggle from './AudioToggle';
 
 const navLinks = [
   { nameKey: 'home', href: '/' },
@@ -191,6 +192,9 @@ export default function Navbar() {
 
           {/* Actions Section */}
           <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
+            {/* Audio Toggle - Desktop Only */}
+            <AudioToggle />
+
             {/* Lang Toggle - Hidden on Mobile, Shown on Tablet & Desktop */}
             <LanguageToggle className="hidden sm:flex" language={language} setLanguage={setLanguage} />
 
