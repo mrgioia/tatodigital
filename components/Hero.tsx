@@ -5,11 +5,9 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import TypewriterHeader from '@/components/TypewriterHeader';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/lib/language-context';
-import { useContactModal } from '@/context/ContactModalProvider';
 
 export default function Hero() {
   const { t, language } = useLanguage();
-  const { openModal } = useContactModal();
   const { scrollY } = useScroll();
   
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
@@ -123,7 +121,10 @@ export default function Hero() {
         >
           <button 
             data-cursor="expand"
-            onClick={() => openModal({ intent: 'fale_com_a_tato', source: 'hero_cta' })}
+            onClick={() => {
+              const el = document.getElementById('solutions');
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
             className="group relative px-10 py-5 bg-neon-cyan text-ink-black font-display font-black text-sm uppercase tracking-widest rounded-none transition-all duration-500 hover:bg-white hover:shadow-[0_0_40px_rgba(0,255,255,0.6)] active:scale-95 flex items-center gap-3 overflow-hidden border border-neon-cyan"
           >
             <span className="relative z-10">{t.hero.ctaPrimary}</span>
@@ -133,7 +134,10 @@ export default function Hero() {
           
           <button 
             data-cursor="hover"
-            onClick={() => openModal({ intent: 'estruturar_operacao', source: 'hero_cta' })}
+            onClick={() => {
+              const el = document.getElementById('portfolio');
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
             className="group px-10 py-5 bg-white/5 text-porcelain font-display font-bold text-sm uppercase tracking-widest border border-white/10 rounded-none hover:border-neon-cyan hover:text-neon-cyan transition-all active:scale-95 flex items-center gap-3"
           >
             {t.hero.ctaSecondary}
