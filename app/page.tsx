@@ -21,6 +21,7 @@ import ClientGrid from '@/components/ClientGrid';
 import TypewriterHeader from '@/components/TypewriterHeader';
 import SolutionDeck from '@/components/SolutionDeck';
 import ContactModal from '@/components/ContactModal';
+import SGVCDetailCard from '@/components/SGVCDetailCard';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 
 export default function Home() {
@@ -54,8 +55,11 @@ export default function Home() {
           {/* 4. PRODUCTS */}
           <Section id="products">
              <ProductSectionHeader />
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-24">
-                <ProductCards />
+             <div className="mt-24 space-y-8">
+               <SGVCDetailCard />
+               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <ProductCards />
+               </div>
              </div>
           </Section>
 
@@ -117,7 +121,9 @@ function ProductSectionHeader() {
 
 function ProductCards() {
   const { t } = useLanguage();
-  return t.products.items.map((item: any, i: number) => (
+  return t.products.items
+    .filter((item: any) => item.id !== 'sgvc')
+    .map((item: any, i: number) => (
     <GlowingCard 
       key={item.id}
       title={item.title}

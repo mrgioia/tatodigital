@@ -46,9 +46,9 @@ export const content = {
         {
           id: 'sgvc',
           title: 'SGVC',
-          subtitle: 'Sistema de Gestão Visual e Controle',
-          description: 'Solução de gestão visual que transforma dados operacionais e financeiros em dashboards claros, acessíveis e acionáveis.',
-          features: ['Dashboards gerenciais', 'Indicadores financeiros e operacionais', 'Bases estruturadas', 'Visão desktop e mobile', 'Manutenção e evolução contínua']
+          subtitle: 'Sistema de Gestão de Vendas para Clínicas',
+          description: 'Solução de gestão financeira e operacional desenvolvida para clínicas que precisam de mais clareza, controle e visão estratégica sobre sua operação.',
+          features: ['Planilha estruturada de gestão financeira', 'Dashboard de indicadores', 'Controle de receitas e despesas', 'Acompanhamento de lucro e margem', 'Visão estratégica do fluxo de caixa']
         },
         {
           id: 'clinicash',
@@ -275,6 +275,39 @@ export const content = {
         { id: 'bs', number: 11, symbol: 'BS', name: 'Barbearia Samuca', category: 'others', mass: '20.18', logo: 'https://lh3.googleusercontent.com/d/1SdnsHYoVN_5EWYE5QgVEgSGzD6c1V-1O' },
         { id: 'ct', number: 12, symbol: 'CT', name: 'Cervejaria Tropí', category: 'others', mass: '20.19', logo: 'https://lh3.googleusercontent.com/d/1ScJo_Mc41JH1W7oTTWi9FKJ4QZ2uTBkv' }
       ]
+    },
+    audioToggle: {
+      on: "SOM LIGADO",
+      off: "SOM DESLIGADO",
+      ariaOn: "Desligar música de fundo",
+      ariaOff: "Ligar música de fundo"
+    },
+    sgvcDetail: {
+      productLabel: 'SISTEMA DE PRODUTO',
+      introShort: 'Gestão financeira com clareza, controle e visão estratégica para clínicas.',
+      mainDescription: 'SGVC é uma solução de gestão financeira e operacional desenvolvida para clínicas que precisam de mais clareza, controle e visão estratégica sobre sua operação.\n\nA plataforma integra estruturação de dados, acompanhamento de receitas e despesas, análise de rentabilidade, monitoramento do fluxo de caixa e visualização de indicadores em dashboards claros e acionáveis.\n\nCom o SGVC, a gestão deixa de ser reativa e passa a ser orientada por informação confiável, organização e capacidade real de tomada de decisão.',
+      problemsTitle: 'Problemas que resolve',
+      problems: [
+        'Falta de controle financeiro',
+        'Dificuldade em visualizar o lucro real',
+        'Desorganização de receitas e despesas',
+        'Ausência de indicadores claros de performance',
+        'Dificuldade em acompanhar a evolução do negócio'
+      ],
+      deliverablesTitle: 'Principais entregáveis',
+      deliverables: [
+        'Planilha estruturada de gestão financeira',
+        'Dashboard de visualização de indicadores',
+        'Controle completo de receitas e despesas',
+        'Acompanhamento de lucro e margem',
+        'Visão estratégica do fluxo de caixa'
+      ],
+      ctaImplantacao: 'IMPLANTAÇÃO',
+      ctaMensalidades: 'MENSALIDADES',
+      modalImplantacaoTitle: 'Implantação do SGVC',
+      modalImplantacaoIntro: 'A implantação do SGVC contempla a estrutura inicial da solução, configuração do ambiente e preparação da base para uso.',
+      modalMensalidadesTitle: 'Mensalidades do SGVC',
+      modalMensalidadesIntro: 'Escolha o plano mensal mais adequado para a rotina e o porte da sua operação.'
     }
   },
   en: {
@@ -322,9 +355,9 @@ export const content = {
         {
           id: 'sgvc',
           title: 'SGVC',
-          subtitle: 'Visual Management & Control System',
-          description: 'Visual management solution that transforms operational and financial data into clear, accessible, and actionable dashboards.',
-          features: ['Management dashboards', 'Financial & operational KPIs', 'Structured bases', 'Desktop & mobile view', 'Continuous evolution']
+          subtitle: 'Sales Management System for Clinics',
+          description: 'Financial and operational management solution designed for clinics that need more clarity, control, and strategic vision over their operation.',
+          features: ['Structured financial management spreadsheet', 'KPI dashboard', 'Revenue & expense control', 'Profit & margin tracking', 'Strategic cash flow vision']
         },
         {
           id: 'clinicash',
@@ -551,6 +584,39 @@ export const content = {
         { id: 'bs', number: 11, symbol: 'BS', name: 'Barbearia Samuca', category: 'others', mass: '20.18', logo: 'https://lh3.googleusercontent.com/d/1SdnsHYoVN_5EWYE5QgVEgSGzD6c1V-1O' },
         { id: 'ct', number: 12, symbol: 'CT', name: 'Cervejaria Tropí', category: 'others', mass: '20.19', logo: 'https://lh3.googleusercontent.com/d/1ScJo_Mc41JH1W7oTTWi9FKJ4QZ2uTBkv' }
       ]
+    },
+    audioToggle: {
+      on: "SOUND ON",
+      off: "SOUND OFF",
+      ariaOn: "Turn background music off",
+      ariaOff: "Turn background music on"
+    },
+    sgvcDetail: {
+      productLabel: 'PRODUCT SYSTEM',
+      introShort: 'Financial management with clarity, control, and strategic vision for clinics.',
+      mainDescription: 'SGVC is a financial and operational management solution designed for clinics that need more clarity, control, and strategic vision over their operation.\n\nThe platform integrates data structuring, revenue and expense tracking, profitability analysis, cash flow monitoring, and indicator visualization in clear and actionable dashboards.\n\nWith SGVC, management shifts from reactive to information-driven, with reliable organization and real decision-making capacity.',
+      problemsTitle: 'Problems it solves',
+      problems: [
+        'Lack of financial control',
+        'Difficulty visualizing real profit',
+        'Disorganized revenue and expenses',
+        'Absence of clear performance indicators',
+        'Difficulty tracking business evolution'
+      ],
+      deliverablesTitle: 'Key deliverables',
+      deliverables: [
+        'Structured financial management spreadsheet',
+        'KPI visualization dashboard',
+        'Complete revenue and expense control',
+        'Profit and margin tracking',
+        'Strategic cash flow vision'
+      ],
+      ctaImplantacao: 'SETUP',
+      ctaMensalidades: 'PLANS',
+      modalImplantacaoTitle: 'SGVC Setup',
+      modalImplantacaoIntro: 'The SGVC setup includes the initial solution structure, environment configuration, and base preparation for use.',
+      modalMensalidadesTitle: 'SGVC Plans',
+      modalMensalidadesIntro: 'Choose the monthly plan that best fits your routine and the size of your operation.'
     }
   }
 };
