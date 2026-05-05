@@ -128,14 +128,10 @@ export default function SolutionDeck() {
       // Responsive adjustments
       const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
       if (isMobile) {
-        if (diff === 0) {
-           x = 0;
-           scale = 1;
-        } else {
-           x = diff * 100;
-           opacity = 0.1;
-           scale = 0.7;
-        }
+         const xOffset = window.innerWidth < 1024 ? 40 : 100;
+         x = diff * xOffset;
+         opacity = diff === 0 ? 1 : 0.1;
+         scale = diff === 0 ? 1 : 0.7;
       }
 
       gsap.to(card, {

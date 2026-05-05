@@ -359,8 +359,8 @@ export default function InteractiveBackground() {
       style={{
         opacity: 1,
         mixBlendMode: 'screen',
-        width: '100vw',
-        height: '100dvh'
+        width: '100%',
+        height: '100%'
       }}
     />
   );

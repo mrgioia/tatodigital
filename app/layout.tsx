@@ -53,7 +53,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} scroll-smooth`} suppressHydrationWarning>
-      <body className="bg-[#001011] text-[#FFFFFC] overflow-x-hidden antialiased selection:bg-[#6CCFF6] selection:text-[#001011]" suppressHydrationWarning>
+      <body className="bg-[#001011] text-[#FFFFFC] overflow-x-hidden max-w-full antialiased selection:bg-[#6CCFF6] selection:text-[#001011]" suppressHydrationWarning>
         {children}
       </body>
     </html>

@@ -24,7 +24,7 @@ export default function PortfolioGrid() {
           }}
           data-cursor={item.id === 'rockworld' ? 'expand' : 'view'}
           data-cursor-label={item.id === 'rockworld' ? t.portfolio.cursorDetails : t.portfolio.cursorGoal}
-          className={`group relative h-[600px] rounded-[64px] border border-white/5 bg-deep-petrol overflow-hidden flex flex-col p-12 transition-all duration-1000 hover:border-frozen-lake/20 shadow-2xl ${
+          className={`group relative h-[500px] md:h-[600px] rounded-[32px] md:rounded-[64px] border border-white/5 bg-deep-petrol overflow-hidden flex flex-col p-6 md:p-12 transition-all duration-1000 hover:border-frozen-lake/20 shadow-2xl ${
             item.id === 'rockworld' ? 'cursor-pointer' : ''
           }`}
         >
@@ -52,7 +52,7 @@ export default function PortfolioGrid() {
             </div>
 
             <div className="mt-auto space-y-6">
-              <h3 className="text-4xl md:text-5xl font-display font-black text-white tracking-tighter leading-[1.1] uppercase italic">
+              <h3 className="text-3xl md:text-5xl font-display font-black text-white tracking-tighter leading-[1.1] uppercase italic">
                 {item.title}
               </h3>
               <p className="text-porcelain/60 text-lg md:text-xl font-medium leading-relaxed max-w-xl group-hover:text-porcelain transition-colors">

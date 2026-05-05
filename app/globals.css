@@ -65,16 +65,24 @@
     @apply border-white/5 box-border;
   }
   
-  html {
-    @apply scroll-smooth;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-  
+  html,
   body {
-    @apply bg-ink-black text-porcelain font-sans selection:bg-frozen-lake selection:text-ink-black;
+    width: 100%;
     max-width: 100%;
     overflow-x: hidden;
+    position: relative;
+    background: #000508;
+    color: #f5f5f5;
+    cursor: none; /* We use the custom cursor */
+    overscroll-behavior-x: none;
+  }
+
+  main {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    touch-action: pan-y;
   }
 
   section {

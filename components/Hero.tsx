@@ -33,8 +33,8 @@ export default function Hero() {
     <section className="relative flex flex-col items-center justify-center pt-[var(--header-height)] overflow-hidden" style={{ minHeight: '100dvh' }}>
       {/* Background Ambience */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-tato-blue/10 blur-[180px] rounded-full opacity-40 animate-pulse" />
-        <div className="absolute -top-40 right-0 w-[600px] h-[600px] bg-frozen-lake/5 blur-[150px] rounded-full opacity-20" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[1200px] h-[300px] md:h-[1200px] bg-tato-blue/10 blur-[80px] md:blur-[180px] rounded-full opacity-40 animate-pulse" />
+        <div className="absolute -top-40 right-0 w-[200px] md:w-[600px] h-[200px] md:h-[600px] bg-frozen-lake/5 blur-[60px] md:blur-[150px] rounded-full opacity-20" />
         {/* Technical Grid Overlay */}
         <div 
           className="absolute inset-0 opacity-[0.05] pointer-events-none" 
@@ -74,7 +74,7 @@ export default function Hero() {
             highlightColor="cyan"
           />
           
-          <div className="text-neon-cyan neon-glow-cyan italic flex items-center justify-center gap-8 min-h-[clamp(4rem,10vw,8rem)] text-[clamp(2.5rem,8vw,7.5rem)] font-display font-black">
+          <div className="text-neon-cyan neon-glow-cyan italic flex items-center justify-center gap-4 md:gap-8 min-h-[clamp(3rem,8vw,8rem)] text-[clamp(1.5rem,6vw,7.5rem)] font-display font-black">
             <AnimatePresence mode="wait">
               <motion.span
                 key={tagIndex}

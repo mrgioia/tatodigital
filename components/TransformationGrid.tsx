@@ -36,7 +36,7 @@ export default function TransformationGrid() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-1 bg-white/5 rounded-[48px] border border-white/10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-1 bg-white/5 rounded-[32px] md:rounded-[48px] border border-white/10">
         {t.transform.items.map((item: any, i: number) => (
           <motion.div
             key={i}
@@ -44,7 +44,7 @@ export default function TransformationGrid() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="p-10 rounded-[40px] bg-ink-black border border-white/5 hover:border-frozen-lake/30 transition-all duration-700 group hover:shadow-[0_20px_50px_rgba(108,207,246,0.1)]"
+            className="p-6 md:p-10 rounded-[28px] md:rounded-[40px] bg-ink-black border border-white/5 hover:border-frozen-lake/30 transition-all duration-700 group hover:shadow-[0_20px_50px_rgba(108,207,246,0.1)]"
             data-cursor="hover"
           >
             <div className="space-y-10">

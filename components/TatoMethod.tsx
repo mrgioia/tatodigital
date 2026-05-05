@@ -63,9 +63,9 @@ export default function TatoMethod() {
   }, []);
 
   return (
-    <div className="relative w-full overflow-visible">
+    <div className="relative w-full overflow-hidden">
       {/* Background radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-cyan-900/5 rounded-full blur-[160px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[1000px] h-[300px] md:h-[1000px] bg-cyan-900/5 rounded-full blur-[80px] md:blur-[160px] pointer-events-none -z-10" />
       
       {/* Header - Aligned to the design system */}
       <div className="max-w-4xl space-y-6 mb-24 lg:mb-0 relative z-40">
@@ -87,7 +87,7 @@ export default function TatoMethod() {
       </div>
 
       {/* Radial System Container */}
-      <div className="relative min-h-[1000px] lg:min-h-[1200px] flex items-center justify-center pt-20 overflow-visible">
+      <div className="relative min-h-[1000px] lg:min-h-[1200px] flex items-center justify-center pt-20 overflow-hidden">
         
         {/* Central 3D Element */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] md:max-w-[800px] aspect-square z-20 pointer-events-none">
