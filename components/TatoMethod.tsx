@@ -81,7 +81,7 @@ export default function TatoMethod() {
         <TypewriterHeader 
           text={t.method.title}
           keywords={methodKeywords}
-          className="text-4xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] text-white uppercase italic tracking-tighter"
+          className="heading-section text-white uppercase italic"
           highlightColor="cyan"
         />
       </div>
@@ -193,7 +193,7 @@ export default function TatoMethod() {
                   onMouseLeave={() => setHoveredIndex(null)}
                   className={`
                     lg:absolute lg:-translate-x-1/2 lg:-translate-y-1/2
-                    w-full lg:w-[320px] 
+                    w-full lg:w-[280px] 
                     group cursor-default
                     pointer-events-auto
                     mb-8 lg:mb-0
@@ -227,11 +227,11 @@ export default function TatoMethod() {
                           animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
                           transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.4 }}
                         />
-                        <h3 className="text-xl md:text-2xl font-display font-black text-white uppercase tracking-tight leading-none group-hover:text-frozen-lake transition-colors duration-500">
+                        <h3 className="text-lg md:text-xl font-display font-black text-white uppercase tracking-tight leading-none group-hover:text-frozen-lake transition-colors duration-500">
                           {step.title}
                         </h3>
                       </div>
-                      <p className="text-sm md:text-base font-medium text-porcelain/50 leading-relaxed group-hover:text-porcelain/90 transition-colors duration-500">
+                      <p className="text-sm font-medium text-porcelain/50 leading-relaxed group-hover:text-porcelain/90 transition-colors duration-500">
                         {step.text}
                       </p>
                     </div>

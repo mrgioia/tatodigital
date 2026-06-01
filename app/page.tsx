@@ -42,7 +42,7 @@ export default function Home() {
           </section>
           
           {/* 2. SOLUTIONS */}
-          <Section id="solutions" containerClass="max-w-[1600px] mx-auto w-full space-y-48">
+          <Section id="solutions" containerClass="container-main space-y-24 md:space-y-32">
              <SolutionsTable />
              <TransformationGrid />
           </Section>
@@ -80,7 +80,7 @@ export default function Home() {
           <ProfessionalHub />
 
           {/* 7b. MANIFESTO & METRICS */}
-          <Section containerClass="max-w-[1600px] mx-auto w-full space-y-32">
+          <Section containerClass="container-main space-y-24 md:space-y-32">
              <ManifestoContent />
              <MetricGrid />
           </Section>
@@ -112,7 +112,7 @@ function ProductSectionHeader() {
        <TypewriterHeader 
           text={t.products.title}
           keywords={productKeywords}
-          className="text-[clamp(2.2rem,7vw,5rem)] font-display font-black leading-[0.95] text-white uppercase italic tracking-tighter"
+          className="heading-section text-white uppercase italic"
           highlightColor="cyan"
        />
     </div>
@@ -153,11 +153,11 @@ function SolutionsTable() {
              <TypewriterHeader 
                 text={t.solutions.title}
                 keywords={solutionsKeywords}
-                className="text-[clamp(2.2rem,7vw,5rem)] font-display font-black leading-[0.9] text-white uppercase italic tracking-tighter"
+                className="heading-section text-white uppercase italic"
                 highlightColor="purple"
              />
           </div>
-          <p className="text-xl md:text-3xl text-porcelain/80 font-medium leading-tight max-w-xl">
+          <p className="body-text text-porcelain/80 max-w-2xl">
              {t.solutions.text}
           </p>
        </div>
@@ -183,7 +183,7 @@ function PortfolioSectionHeader() {
        <TypewriterHeader 
           text={t.portfolio.title}
           keywords={portfolioKeywords}
-          className="text-[clamp(2.2rem,7vw,5rem)] font-display font-black leading-[0.95] text-white uppercase italic tracking-tighter"
+          className="heading-section text-white uppercase italic"
           highlightColor="green"
        />
     </div>
@@ -204,10 +204,10 @@ function ManifestoContent() {
        <TypewriterHeader 
           text={`“${t.manifesto.title}”`}
           keywords={manifestoKeywords}
-          className="text-[clamp(1.8rem,5vw,4.5rem)] font-display font-black text-white italic leading-[1.1] tracking-tighter"
+          className="heading-section text-white italic"
           highlightColor="cyan"
        />
-       <p className="max-w-3xl mx-auto text-xl md:text-3xl text-porcelain/80 font-medium leading-tight text-center">
+       <p className="body-text text-porcelain/80 text-center max-w-3xl mx-auto">
           {t.manifesto.text}
        </p>
     </div>
@@ -227,10 +227,10 @@ function FinalCTA() {
              <TypewriterHeader 
                 text={t.ctaFinal.title}
                 keywords={ctaKeywords}
-                className="text-[clamp(2.2rem,7vw,5.5rem)] font-display font-black text-white italic tracking-tighter leading-[0.95] uppercase"
+                className="heading-hero text-white italic uppercase"
                 highlightColor="cyan"
              />
-             <p className="text-xl md:text-2xl text-grey font-medium max-w-2xl mx-auto">
+             <p className="body-text text-grey max-w-2xl mx-auto">
                 {t.ctaFinal.text}
              </p>
           </div>

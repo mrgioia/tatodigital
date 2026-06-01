@@ -29,7 +29,7 @@ export default function GlowingCard({
       transition={{ duration: 1, delay }}
       data-cursor="view"
       data-cursor-label="GO"
-      className={`group relative h-full bg-white/[0.02] rounded-[48px] border border-white/10 hover:border-frozen-lake/30 transition-all duration-700 overflow-hidden flex flex-col p-12 md:p-16 hover:bg-white/[0.04] ${className}`}
+      className={`group relative h-full bg-white/[0.02] rounded-[48px] border border-white/10 hover:border-frozen-lake/30 transition-all duration-700 overflow-hidden flex flex-col p-8 md:p-12 hover:bg-white/[0.04] ${className}`}
     >
       {/* Background Ambience */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-tato-blue/5 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none group-hover:bg-frozen-lake/10 transition-colors duration-1000" />
@@ -37,19 +37,19 @@ export default function GlowingCard({
       <div className="relative z-10 flex flex-col h-full gap-10">
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <h3 className="text-4xl md:text-6xl font-display font-black text-white italic tracking-tighter group-hover:text-frozen-lake transition-colors">
+            <h3 className="heading-card text-white italic group-hover:text-frozen-lake transition-colors">
               {title}
             </h3>
             <div className="h-px flex-1 bg-white/10 group-hover:bg-frozen-lake/20 transition-all duration-700" />
           </div>
           {subtitle && (
-            <p className="text-xl md:text-2xl font-display font-bold text-porcelain/80 tracking-tight leading-tight">
+            <p className="text-lg md:text-xl font-display font-bold text-porcelain/80 tracking-tight leading-tight">
               {subtitle}
             </p>
           )}
         </div>
 
-        <p className="text-lg md:text-xl text-porcelain/80 leading-relaxed font-medium">
+        <p className="body-text text-porcelain/80">
           {description}
         </p>
 

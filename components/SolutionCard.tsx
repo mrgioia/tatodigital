@@ -25,7 +25,7 @@ export default function SolutionCard({ item, isActive, isSide, className, progre
   return (
     <div 
       className={cn(
-        "relative w-[280px] md:w-[320px] aspect-[4/6] rounded-[32px] overflow-hidden transition-all duration-700",
+        "relative w-[260px] md:w-[280px] aspect-[4/6] rounded-[32px] overflow-hidden transition-all duration-700",
         "bg-ink-black/40 backdrop-blur-xl border border-white/10",
         "shadow-[0_20px_50px_rgba(0,0,0,0.5)]",
         isActive ? "z-30 border-frozen-lake/30 scale-100" : "z-10 border-white/5 scale-90 opacity-40",
@@ -71,7 +71,7 @@ export default function SolutionCard({ item, isActive, isSide, className, progre
         <div className="space-y-6">
           <div className="space-y-2">
             <h3 className={cn(
-              "text-3xl font-display font-black leading-none uppercase italic tracking-tighter transition-colors duration-500",
+              "text-2xl font-display font-black leading-none uppercase italic tracking-tighter transition-colors duration-500",
               isActive ? "text-white" : "text-white/60"
             )}>
               {item.title}

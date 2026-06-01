@@ -46,7 +46,7 @@ export default function SGVCDetailCard() {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-tato-blue/5 blur-[120px] rounded-full translate-x-1/4 -translate-y-1/4 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-frozen-lake/5 blur-[100px] rounded-full -translate-x-1/4 translate-y-1/4 pointer-events-none" />
 
-        <div className="relative z-10 p-8 md:p-12 lg:p-16">
+        <div className="relative z-10 p-8 md:p-12">
           {/* Product Label */}
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-[1px] bg-frozen-lake" />
@@ -61,23 +61,23 @@ export default function SGVCDetailCard() {
             <div className="space-y-10">
               {/* Title & Subtitle */}
               <div className="space-y-3">
-                <h3 className="text-5xl md:text-7xl font-display font-black text-white italic tracking-tighter">
+                <h3 className="heading-card text-white italic">
                   SGVC
                 </h3>
-                <p className="text-xl md:text-2xl font-display font-bold text-frozen-lake/90 tracking-tight leading-tight">
+                <p className="text-lg md:text-xl font-display font-bold text-frozen-lake/90 tracking-tight leading-tight">
                   {t.products.items.find((i: any) => i.id === 'sgvc')?.subtitle}
                 </p>
               </div>
 
               {/* Short intro */}
-              <p className="text-lg md:text-xl text-porcelain/70 font-medium leading-relaxed">
+              <p className="body-text text-porcelain/70">
                 {sgvc.introShort}
               </p>
 
               {/* Main description */}
               <div className="space-y-4">
                 {paragraphs.map((paragraph: string, i: number) => (
-                  <p key={i} className="text-base text-porcelain/60 leading-relaxed">
+                  <p key={i} className="text-base text-porcelain/70 leading-relaxed">
                     {paragraph}
                   </p>
                 ))}

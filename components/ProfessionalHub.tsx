@@ -366,7 +366,7 @@ export default function ProfessionalHub() {
                       {storyLayers[0].label}
                     </span>
                   </div>
-                  <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-black leading-[0.95] tracking-tighter uppercase italic mb-6 text-white flex items-center flex-wrap gap-x-3">
+                  <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-black leading-[0.95] tracking-tighter uppercase italic mb-6 text-white flex items-center flex-wrap gap-x-3">
                     <span className="text-white/90">RENATO</span>{" "}
                     <span className="inline-flex">
                       {nameLetters.map((char, index) => (
@@ -381,7 +381,7 @@ export default function ProfessionalHub() {
                       ))}
                     </span>
                   </h3>
-                  <p className="text-lg md:text-2xl font-display font-bold text-white italic tracking-tight mb-4">
+                  <p className="text-base md:text-xl font-display font-bold text-white italic tracking-tight mb-4">
                     {storyLayers[0].subtitle}
                   </p>
                 </motion.div>
@@ -391,7 +391,7 @@ export default function ProfessionalHub() {
                   className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col justify-center pointer-events-none"
                   style={{ opacity: phase2Opacity, y: phase2Y }}
                 >
-                  <p className="text-2xl md:text-3xl lg:text-4xl text-white leading-relaxed font-display font-black italic max-w-xl">
+                  <p className="text-xl md:text-2xl lg:text-3xl text-white leading-relaxed font-display font-black italic max-w-xl">
                     {storyLayers[0].text}
                   </p>
                 </motion.div>
@@ -404,7 +404,7 @@ export default function ProfessionalHub() {
                   <div className="flex flex-col gap-12">
                     {t.renato.roles.map((role: { title: string; sub: string }, i: number) => (
                       <div key={i} className="space-y-2">
-                        <div className="text-3xl lg:text-4xl font-display font-black text-white italic tracking-tight">
+                        <div className="text-2xl lg:text-3xl font-display font-black text-white italic tracking-tight">
                           {role.title}
                         </div>
                         <div className="text-sm font-mono text-white/50 uppercase tracking-[0.3em] font-bold">
@@ -437,11 +437,11 @@ export default function ProfessionalHub() {
                   className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col justify-center"
                   style={{ opacity: phase5Opacity, y: phase5Y, pointerEvents: useTransform(progressMv, (v) => v > 0.78 ? 'auto' : 'none') }}
                 >
-                  <h3 className="text-4xl lg:text-5xl font-display font-black leading-none tracking-tighter uppercase italic mb-6">
+                  <h3 className="text-3xl lg:text-4xl font-display font-black leading-none tracking-tighter uppercase italic mb-6">
                     <span className="text-white/90">RENATO </span>
                     <span className="text-[#B026FF]">GIOIA</span>
                   </h3>
-                  <p className="text-xl text-white/70 leading-relaxed font-medium mb-12 max-w-xl">
+                  <p className="body-text text-white/70 mb-12 max-w-xl">
                     Estratégia, operação, dados e produto conectados para transformar complexidade em execução.
                   </p>
                   
@@ -520,7 +520,7 @@ export default function ProfessionalHub() {
                 hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
               }}
-              className="text-5xl md:text-7xl font-display font-black leading-none tracking-tighter uppercase italic"
+              className="text-4xl md:text-6xl font-display font-black leading-none tracking-tighter uppercase italic"
             >
               <span className="text-white/90">RENATO </span>
               <span className="text-[#B026FF]">GIOIA</span>
@@ -531,7 +531,7 @@ export default function ProfessionalHub() {
                 hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
                 visible: { opacity: 0.7, y: 0, transition: { duration: 0.7 } }
               }}
-              className="text-lg md:text-xl font-display font-bold text-white/70 italic tracking-tight max-w-md"
+              className="text-base md:text-lg font-display font-bold text-white/70 italic tracking-tight max-w-md"
             >
               {storyLayers[0].subtitle}
             </motion.p>
@@ -549,7 +549,7 @@ export default function ProfessionalHub() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="text-base md:text-lg text-white/70 leading-relaxed font-medium"
+                className="body-text text-white/70"
               >
                 {parseHighlight(paragraph)}
               </motion.p>

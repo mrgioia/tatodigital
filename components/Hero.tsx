@@ -47,7 +47,7 @@ export default function Hero() {
 
       <motion.div 
         style={{ y: y1, opacity }}
-        className="container relative z-10 mx-auto px-6 max-w-[1400px] flex flex-col items-center text-center"
+        className="container-main relative z-10 flex flex-col items-center text-center"
       >
         {/* Section Label */}
         <motion.div
@@ -70,11 +70,11 @@ export default function Hero() {
             text={t.hero.headline}
             keywords={heroKeywords}
             as="h1"
-            className="text-[clamp(2rem,6vw,5.5rem)] font-display font-black text-center text-white uppercase italic leading-[0.95] tracking-tighter"
+            className="heading-hero text-center text-white uppercase italic"
             highlightColor="cyan"
           />
           
-          <div className="text-neon-cyan neon-glow-cyan italic flex items-center justify-center gap-4 md:gap-8 min-h-[clamp(3rem,8vw,8rem)] text-[clamp(1.5rem,6vw,7.5rem)] font-display font-black">
+          <div className="text-neon-cyan neon-glow-cyan italic flex items-center justify-center gap-4 md:gap-8 min-h-[clamp(3rem,6vw,6rem)] text-[clamp(24px,5vw,64px)] font-display font-black">
             <AnimatePresence mode="wait">
               <motion.span
                 key={tagIndex}
@@ -107,7 +107,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="max-w-xl text-base md:text-lg text-porcelain/85 leading-relaxed font-medium mb-10"
+          className="max-w-3xl body-text text-porcelain/85 mb-10"
         >
           {t.hero.subheadline}
         </motion.p>

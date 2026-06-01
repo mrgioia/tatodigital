@@ -121,7 +121,7 @@ export default function ClientGrid() {
           <TypewriterHeader 
             text={t.clients.title}
             keywords={clientKeywords}
-            className="text-[clamp(2.2rem,7vw,5rem)] font-display font-black leading-[0.9] text-white uppercase italic tracking-tighter"
+            className="heading-section text-white uppercase italic"
             highlightColor="purple"
           />
         </div>
@@ -239,7 +239,7 @@ function PeriodicElement({ client, isActive }: { client: ClientItem; isActive: b
       data-cursor={isActive ? "view" : undefined}
       className={`
         relative group aspect-square rounded-2xl border-px transition-all duration-700
-        overflow-hidden flex flex-col p-5 md:p-7
+        overflow-hidden flex flex-col p-4 md:p-5
         ${isActive ? 'cursor-pointer' : 'pointer-events-none'}
       `}
       style={{
@@ -268,7 +268,7 @@ function PeriodicElement({ client, isActive }: { client: ClientItem; isActive: b
       {/* Main Content (Symbol & Logo) */}
       <div className="flex-1 flex flex-col items-center justify-center relative">
         <motion.div 
-          className="text-5xl md:text-7xl font-display font-black uppercase italic tracking-tighter opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+          className="text-4xl md:text-6xl font-display font-black uppercase italic tracking-tighter opacity-100 group-hover:opacity-0 transition-opacity duration-500"
           style={{ 
             color: style.hex,
             filter: `drop-shadow(0 0 15px ${style.glow})`

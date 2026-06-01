@@ -265,7 +265,7 @@ export default function ContactModal() {
               <X size={18} />
             </button>
 
-            <div className="p-8 md:p-10">
+            <div className="p-6 md:p-8">
               {/* Header */}
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-4">
