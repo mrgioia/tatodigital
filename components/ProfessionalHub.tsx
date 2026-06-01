@@ -1,12 +1,19 @@
 'use client';
 
 import React, { useRef, useMemo, useSyncExternalStore } from 'react';
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'motion/react';
+import { motion, useTransform, MotionValue, useMotionValue } from 'motion/react';
 import { useLanguage } from '@/lib/language-context';
 import { useContactModal } from '@/context/ContactModalProvider';
-import ProfessionalHubPhotoSequence from '@/components/ProfessionalHubPhotoSequence';
-import TypewriterHeader from '@/components/TypewriterHeader';
-import { ArrowRight, ChevronRight, FileText } from 'lucide-react';
+import ProfessionalHubPhotoSequence, { PhotoSequenceHandle } from '@/components/ProfessionalHubPhotoSequence';
+import { ArrowRight, ChevronRight } from 'lucide-react';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // ─── Flare system (preserved from original RenatoHub) ────────────────────────
 
@@ -117,8 +124,7 @@ const LetterWithFlares = ({
   );
 };
 
-// ─── Story Layer Component ──────────────────────────────────────────────────
-
+// ─── Mobile Story Layer Component ───────────────────────────────────────────
 interface StoryLayer {
   label: string;
   title: string;
@@ -126,78 +132,8 @@ interface StoryLayer {
   text: string;
 }
 
-function StoryLayerContent({
-  layer,
-  isActive,
-  layerIndex,
-}: {
-  layer: StoryLayer;
-  isActive: boolean;
-  layerIndex: number;
-}) {
-  const accentColors = [
-    'text-white/90',
-    'text-[#B026FF]',
-    'text-[#6CCFF6]',
-    'text-[#B026FF]'
-  ];
-
-  return (
-    <motion.div
-      className="absolute inset-0 flex flex-col justify-center"
-      initial={false}
-      animate={{
-        opacity: isActive ? 1 : 0,
-        y: isActive ? 0 : 20,
-        filter: isActive ? 'blur(0px)' : 'blur(4px)',
-      }}
-      transition={{
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      style={{ pointerEvents: isActive ? 'auto' : 'none' }}
-    >
-      {/* Phase label */}
-      <div className="flex items-center gap-4 mb-6">
-        <div className="w-8 h-[1px] bg-white/20" />
-        <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-[0.5em]">
-          {layer.label}
-        </span>
-      </div>
-
-      {/* Title */}
-      <h3 className={`text-3xl md:text-5xl lg:text-6xl font-display font-black leading-[0.95] tracking-tighter uppercase italic mb-6 ${accentColors[layerIndex]}`}>
-        {layer.title}
-      </h3>
-
-      {/* Subtitle */}
-      {layer.subtitle && (
-        <p className="text-lg md:text-2xl font-display font-bold text-white/70 italic tracking-tight mb-4">
-          {layer.subtitle}
-        </p>
-      )}
-
-      {/* Body text */}
-      <p className="text-base md:text-xl text-white/60 leading-relaxed font-medium max-w-xl">
-        {layer.text}
-      </p>
-
-      {/* Accent line */}
-      <div className={`w-16 h-[2px] mt-8 rounded-full ${
-        layerIndex === 0 ? 'bg-white/20' :
-        layerIndex === 1 ? 'bg-[#B026FF]/40' :
-        layerIndex === 2 ? 'bg-[#6CCFF6]/40' :
-        'bg-[#B026FF]/40'
-      }`} />
-    </motion.div>
-  );
-}
-
-// ─── Mobile Story Layer (no scroll-sync, all visible stacked) ───────────────
-
 function MobileStoryLayers({ layers }: { layers: StoryLayer[] }) {
   const accentColors = [
-    'text-white/90',
     'text-[#B026FF]',
     'text-[#6CCFF6]',
     'text-[#B026FF]'
@@ -248,18 +184,45 @@ export default function ProfessionalHub() {
     () => false
   );
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   const sectionRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const photoSequenceRef = useRef<PhotoSequenceHandle>(null);
+  
+  const progressMv = useMotionValue(0);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
+  useGSAP(() => {
+    if (prefersReducedMotion) return;
+    
+    // Refresh ScrollTrigger to ensure correct layout calculations
+    ScrollTrigger.refresh();
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 30 });
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      pin: stageRef.current,
+      pinSpacing: false,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        progressMv.set(self.progress);
+        if (photoSequenceRef.current) {
+          photoSequenceRef.current.setProgress(self.progress);
+        }
+      }
+    });
 
-  // Flare color progression (preserved from original)
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, { dependencies: [prefersReducedMotion] });
+
+  // Flare color progression
   const flareColor = useTransform(
-    smoothProgress,
+    progressMv,
     [0.1, 0.25, 0.4, 0.55, 0.7, 0.85],
     [
       '#4B0082',
@@ -271,22 +234,21 @@ export default function ProfessionalHub() {
     ]
   );
 
-  // Active layer based on scroll progress
-  const activeLayer = useTransform(smoothProgress, (v) => {
-    if (v < 0.25) return 0;
-    if (v < 0.50) return 1;
-    if (v < 0.75) return 2;
-    return 3;
-  });
+  // Phases opacity mapping
+  const phase1Opacity = useTransform(progressMv, [0, 0.05, 0.16, 0.18], [0, 1, 1, 0]);
+  const phase1Y = useTransform(progressMv, [0, 0.05, 0.16, 0.18], [30, 0, 0, -30]);
 
-  // Track active layer in state for text transitions
-  const [currentLayer, setCurrentLayer] = React.useState(0);
-  React.useEffect(() => {
-    const unsubscribe = activeLayer.on('change', (v) => {
-      setCurrentLayer(v);
-    });
-    return unsubscribe;
-  }, [activeLayer]);
+  const phase2Opacity = useTransform(progressMv, [0.18, 0.22, 0.36, 0.38], [0, 1, 1, 0]);
+  const phase2Y = useTransform(progressMv, [0.18, 0.22, 0.36, 0.38], [30, 0, 0, -30]);
+
+  const phase3Opacity = useTransform(progressMv, [0.38, 0.42, 0.56, 0.58], [0, 1, 1, 0]);
+  const phase3Y = useTransform(progressMv, [0.38, 0.42, 0.56, 0.58], [30, 0, 0, -30]);
+
+  const phase4Opacity = useTransform(progressMv, [0.58, 0.62, 0.76, 0.78], [0, 1, 1, 0]);
+  const phase4Y = useTransform(progressMv, [0.58, 0.62, 0.76, 0.78], [30, 0, 0, -30]);
+
+  const phase5Opacity = useTransform(progressMv, [0.78, 0.82, 1], [0, 1, 1]);
+  const phase5Y = useTransform(progressMv, [0.78, 0.82, 1], [30, 0, 0]);
 
   // Story layers content
   const storyLayers: StoryLayer[] = useMemo(() => {
@@ -340,10 +302,6 @@ export default function ProfessionalHub() {
     ];
   }, [language]);
 
-  const renatoKeywords = language === 'pt'
-    ? ['experiência', 'dados', 'execução']
-    : ['experience', 'data', 'execution'];
-
   const nameLetters = 'GIOIA'.split('');
 
   const ctaLabels = useMemo(() => {
@@ -361,18 +319,26 @@ export default function ProfessionalHub() {
     };
   }, [language]);
 
+  // Utility to parse highlighting
+  const parseHighlight = (text: string) => {
+    return text; // Fallback if no specific formatting logic
+  };
+
   return (
-    <section id="about" className="relative scroll-mt-[var(--header-height)]">
-      {/* ── DESKTOP: Scroll-linked two-column layout ──────────────────────── */}
-      <div
+    <>
+      {/* ── DESKTOP: Scrollytelling Pinned Section ──────────────────────── */}
+      <section 
+        id="about" 
         ref={sectionRef}
-        className="hidden lg:block relative"
-        style={{ minHeight: '400vh' }}
+        className="hidden lg:block relative w-full"
+        style={{ height: '500vh' }}
       >
-        {/* Sticky viewport */}
-        <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+        <div 
+          ref={stageRef}
+          className="relative w-full h-[100dvh] overflow-hidden"
+        >
           {/* Background ambient glow */}
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none z-0">
             <motion.div
               className="absolute top-1/4 -left-32 w-[600px] h-[600px] rounded-full blur-[200px] opacity-[0.04]"
               style={{ backgroundColor: flareColor }}
@@ -383,122 +349,193 @@ export default function ProfessionalHub() {
             />
           </div>
 
-          <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 grid grid-cols-12 gap-8 lg:gap-12 items-center h-full py-20">
-            {/* LEFT COLUMN: Scroll-synced story + competences */}
-            <div className="col-span-5 flex flex-col h-full justify-between">
-              {/* Story layers container */}
-              <div className="relative flex-1 min-h-0">
-                {storyLayers.map((layer, i) => (
-                  <StoryLayerContent
-                    key={i}
-                    layer={layer}
-                    isActive={currentLayer === i}
-                    layerIndex={i}
-                  />
-                ))}
-              </div>
+          <div className="relative z-10 w-full h-full max-w-[1600px] mx-auto px-6 grid grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* LEFT COLUMN: Overlays */}
+            <div className="col-span-5 h-full relative">
+              <div className="absolute inset-0 flex flex-col justify-center">
+                
+                {/* Phase 1: 0% - 18% */}
+                <motion.div 
+                  className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col justify-center pointer-events-none"
+                  style={{ opacity: phase1Opacity, y: phase1Y }}
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-8 h-[1px] bg-white/20" />
+                    <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-[0.5em]">
+                      {storyLayers[0].label}
+                    </span>
+                  </div>
+                  <h3 className="text-3xl md:text-5xl lg:text-6xl font-display font-black leading-[0.95] tracking-tighter uppercase italic mb-6 text-white flex items-center flex-wrap gap-x-3">
+                    <span className="text-white/90">RENATO</span>{" "}
+                    <span className="inline-flex">
+                      {nameLetters.map((char, index) => (
+                        <LetterWithFlares
+                          key={index}
+                          letter={char}
+                          index={index}
+                          progress={progressMv}
+                          color={flareColor}
+                          isClient={isClient}
+                        />
+                      ))}
+                    </span>
+                  </h3>
+                  <p className="text-lg md:text-2xl font-display font-bold text-white italic tracking-tight mb-4">
+                    {storyLayers[0].subtitle}
+                  </p>
+                </motion.div>
 
-              {/* Bottom: Roles + Competences + CTAs (always visible) */}
-              <div className="mt-auto space-y-8 pb-4">
-                {/* Roles */}
-                <div className="flex items-center gap-8">
-                  {t.renato.roles.map((role: { title: string; sub: string }, i: number) => (
-                    <React.Fragment key={i}>
-                      <div className="space-y-1">
-                        <div className="text-xl font-display font-black text-white italic tracking-tight">
+                {/* Phase 2: 18% - 38% */}
+                <motion.div 
+                  className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col justify-center pointer-events-none"
+                  style={{ opacity: phase2Opacity, y: phase2Y }}
+                >
+                  <p className="text-2xl md:text-3xl lg:text-4xl text-white leading-relaxed font-display font-black italic max-w-xl">
+                    {storyLayers[0].text}
+                  </p>
+                </motion.div>
+
+                {/* Phase 3: 38% - 58% (Roles) */}
+                <motion.div 
+                  className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col justify-center pointer-events-none"
+                  style={{ opacity: phase3Opacity, y: phase3Y }}
+                >
+                  <div className="flex flex-col gap-12">
+                    {t.renato.roles.map((role: { title: string; sub: string }, i: number) => (
+                      <div key={i} className="space-y-2">
+                        <div className="text-3xl lg:text-4xl font-display font-black text-white italic tracking-tight">
                           {role.title}
                         </div>
-                        <div className="text-[9px] font-mono text-white/50 uppercase tracking-[0.3em] font-bold">
+                        <div className="text-sm font-mono text-white/50 uppercase tracking-[0.3em] font-bold">
                           {role.sub}
                         </div>
                       </div>
-                      {i < t.renato.roles.length - 1 && (
-                        <div className="w-px h-8 bg-white/10" />
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </motion.div>
 
-                {/* Competences (compact) */}
-                <div className="flex flex-wrap gap-2">
-                  {t.renato.competences.map((skill: string, i: number) => (
-                    <span
-                      key={i}
-                      className="text-[10px] font-mono font-bold text-white/40 uppercase tracking-[0.15em] px-3 py-1.5 rounded-full border border-white/[0.06] hover:border-white/20 hover:text-white/70 transition-all duration-500"
+                {/* Phase 4: 58% - 78% (Tags) */}
+                <motion.div 
+                  className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col justify-center pointer-events-none"
+                  style={{ opacity: phase4Opacity, y: phase4Y }}
+                >
+                  <div className="flex flex-wrap gap-4">
+                    {t.renato.competences.map((skill: string, i: number) => (
+                      <span
+                        key={i}
+                        className="text-xs lg:text-sm font-mono font-bold text-white/60 uppercase tracking-[0.15em] px-4 py-2 rounded-full border border-white/10"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Phase 5: 78% - 100% (Final Comp & Buttons) */}
+                <motion.div 
+                  className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col justify-center"
+                  style={{ opacity: phase5Opacity, y: phase5Y, pointerEvents: useTransform(progressMv, (v) => v > 0.78 ? 'auto' : 'none') }}
+                >
+                  <h3 className="text-4xl lg:text-5xl font-display font-black leading-none tracking-tighter uppercase italic mb-6">
+                    <span className="text-white/90">RENATO </span>
+                    <span className="text-[#B026FF]">GIOIA</span>
+                  </h3>
+                  <p className="text-xl text-white/70 leading-relaxed font-medium mb-12 max-w-xl">
+                    Estratégia, operação, dados e produto conectados para transformar complexidade em execução.
+                  </p>
+                  
+                  <div className="flex items-center gap-4 pointer-events-auto">
+                    <button
+                      onClick={() => openModal({ intent: 'fale_com_a_tato', source: 'professional_hub' })}
+                      className="group flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-xs font-mono font-bold text-white uppercase tracking-[0.15em] hover:bg-white hover:text-black transition-all duration-300"
                     >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+                      {ctaLabels.contact}
+                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        const el = document.getElementById('portfolio');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="group flex items-center gap-2 px-6 py-3 rounded-full text-xs font-mono font-bold text-white/60 uppercase tracking-[0.15em] hover:text-white transition-all duration-300"
+                    >
+                      {ctaLabels.projects}
+                      <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                    </button>
+                  </div>
+                </motion.div>
 
-                {/* CTAs */}
-                <div className="flex items-center gap-4 pt-2">
-                  <button
-                    data-cursor="expand"
-                    onClick={() => openModal({ intent: 'fale_com_a_tato', source: 'professional_hub' })}
-                    className="group flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 text-xs font-mono font-bold text-white/70 uppercase tracking-[0.15em] hover:border-[#B026FF]/30 hover:text-white hover:shadow-[0_0_20px_rgba(176,38,255,0.15)] transition-all duration-500"
-                  >
-                    {ctaLabels.contact}
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-                  </button>
-                  <button
-                    data-cursor="hover"
-                    onClick={() => {
-                      const el = document.getElementById('portfolio');
-                      el?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="group flex items-center gap-2 px-6 py-3 rounded-full text-xs font-mono font-bold text-white/40 uppercase tracking-[0.15em] hover:text-white/70 transition-all duration-500"
-                  >
-                    {ctaLabels.projects}
-                    <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-                  </button>
-                </div>
               </div>
             </div>
 
             {/* RIGHT COLUMN: Canvas photo sequence */}
-            <div className="col-span-7 h-[75vh] flex items-center">
-              <div className="w-full h-full relative">
+            <div className="col-span-7 h-[75vh] flex items-center justify-center">
+              <div className="w-full h-full relative max-w-3xl">
                 <ProfessionalHubPhotoSequence
-                  scrollProgress={smoothProgress}
+                  ref={photoSequenceRef}
                   className="border border-white/[0.06]"
                 />
               </div>
             </div>
+
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ── MOBILE: Stacked layout ───────────────────────────────────────── */}
       <div className="lg:hidden px-6 py-24 md:py-32">
         <div className="max-w-[1600px] mx-auto space-y-16">
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.15
+                }
+              }
+            }}
             className="flex flex-col items-center text-center space-y-6"
           >
-            <div className="flex items-center gap-3">
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 12 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+              }}
+              className="flex items-center gap-3"
+            >
               <div className="w-8 h-[1px] bg-white/20" />
               <span className="text-[9px] font-mono font-black text-white/40 uppercase tracking-[0.5em]">
                 {t.renato.label}
               </span>
               <div className="w-8 h-[1px] bg-white/20" />
-            </div>
+            </motion.div>
 
-            <h3 className="text-5xl md:text-7xl font-display font-black leading-none tracking-tighter uppercase italic">
+            <motion.h3 
+              variants={{
+                hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+              }}
+              className="text-5xl md:text-7xl font-display font-black leading-none tracking-tighter uppercase italic"
+            >
               <span className="text-white/90">RENATO </span>
               <span className="text-[#B026FF]">GIOIA</span>
-            </h3>
+            </motion.h3>
 
-            <p className="text-lg md:text-xl font-display font-bold text-white/70 italic tracking-tight max-w-md">
+            <motion.p 
+              variants={{
+                hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
+                visible: { opacity: 0.7, y: 0, transition: { duration: 0.7 } }
+              }}
+              className="text-lg md:text-xl font-display font-bold text-white/70 italic tracking-tight max-w-md"
+            >
               {storyLayers[0].subtitle}
-            </p>
+            </motion.p>
           </motion.div>
-
-          {/* Mobile Photo Sequence */}
-          <MobilePhotoSection scrollProgress={scrollYProgress} />
 
           {/* Story layers — all visible, stacked */}
           <MobileStoryLayers layers={storyLayers.slice(1)} />
@@ -546,84 +583,16 @@ export default function ProfessionalHub() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="flex items-baseline gap-4 py-3 border-b border-white/5"
+                  className="text-[10px] font-mono font-bold text-white/50 uppercase tracking-[0.2em] px-4 py-2 rounded-lg border border-white/5 bg-white/[0.02]"
                 >
-                  <span className="text-xs font-mono font-bold text-white/30">0{i + 1}</span>
-                  <h4 className="text-base font-display font-bold text-white/80 tracking-tight uppercase">
-                    {skill}
-                  </h4>
+                  {skill}
                 </motion.div>
               ))}
             </div>
           </div>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button
-              data-cursor="expand"
-              onClick={() => openModal({ intent: 'fale_com_a_tato', source: 'professional_hub_mobile' })}
-              className="group flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-white/10 text-xs font-mono font-bold text-white/70 uppercase tracking-[0.15em] hover:border-[#B026FF]/30 hover:text-white hover:shadow-[0_0_20px_rgba(176,38,255,0.15)] transition-all duration-500"
-            >
-              {ctaLabels.contact}
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </button>
-            <button
-              data-cursor="hover"
-              onClick={() => {
-                const el = document.getElementById('portfolio');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="group flex items-center justify-center gap-2 px-8 py-4 rounded-full text-xs font-mono font-bold text-white/40 uppercase tracking-[0.15em] hover:text-white/70 transition-all duration-500"
-            >
-              {ctaLabels.projects}
-              <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </button>
-          </div>
+          
         </div>
       </div>
-    </section>
+    </>
   );
-}
-
-// ─── Mobile Photo Section ────────────────────────────────────────────────────
-
-function MobilePhotoSection({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress: localProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  });
-
-  return (
-    <motion.div
-      ref={containerRef}
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="w-full aspect-[4/3] max-h-[50vh] rounded-2xl overflow-hidden"
-    >
-      <ProfessionalHubPhotoSequence
-        scrollProgress={localProgress}
-        className="border border-white/[0.06]"
-      />
-    </motion.div>
-  );
-}
-
-// ─── Utility: Parse bold highlights ──────────────────────────────────────────
-
-function parseHighlight(text: string) {
-  const parts = text.split(/(\*\*.*?\*\*)/g);
-  return parts.map((part, i) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return (
-        <span key={i} className="text-white font-black">
-          {part.slice(2, -2)}
-        </span>
-      );
-    }
-    return part;
-  });
 }

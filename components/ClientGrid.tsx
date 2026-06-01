@@ -62,6 +62,7 @@ export default function ClientGrid() {
       'rirl': { r: 1, c: 3 },
       'tt': { r: 2, c: 1 },
       'nb': { r: 2, c: 2 },
+      'v3a': { r: 2, c: 3 },
       // Health cluster (Row 1-2, Col 4-6)
       'eb': { r: 1, c: 5 },
       'ec': { r: 1, c: 6 },
