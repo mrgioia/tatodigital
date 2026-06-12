@@ -20,22 +20,31 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'TATO Digital | Governança, Dados, IA e Soluções Digitais',
   description: 'Consultoria premium para empresas que precisam estruturar processos, tomar decisões com dados e crescer com controle.',
-  metadataBase: new URL('https://tatodigital.com.br'),
+  metadataBase: new URL('https://www.tato-digital.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'TATO Digital | Governança, Dados, IA e Soluções Digitais',
     description: 'Consultoria premium para empresas que precisam estruturar processos, tomar decisões com dados e crescer com controle.',
-    url: 'https://tatodigital.com.br',
+    url: 'https://www.tato-digital.com/',
     siteName: 'TATO Digital',
     locale: 'pt_BR',
     type: 'website',
+    images: [
+      {
+        url: '/og/tato-digital-og-v2.png',
+        width: 1200,
+        height: 630,
+        alt: 'TATO Digital',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'TATO Digital | Governança, Dados, IA e Soluções Digitais',
     description: 'Consultoria premium para empresas que precisam estruturar processos, tomar decisões com dados e crescer com controle.',
+    images: ['/og/tato-digital-og-v2.png'],
   },
   robots: {
     index: true,
